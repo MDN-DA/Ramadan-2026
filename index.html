@@ -23,11 +23,11 @@
         
         .container {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 24px;
-            padding: 50px 40px;
+            border-radius: 20px;
+            padding: 30px 25px;  
             box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
             text-align: center;
-            max-width: 600px;
+            max-width: 450px;
             width: 100%;
             backdrop-filter: blur(10px);
         }
@@ -44,7 +44,7 @@
         }
         
         .main-title {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 700;
             background: linear-gradient(135deg, #1e3c72 0%, #7e22ce 100%);
             -webkit-background-clip: text;
@@ -54,9 +54,9 @@
         }
         
         .subtitle {
-            font-size: 18px;
+            font-size: 14px;
             color: #666;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             font-weight: 500;
         }
         
@@ -110,7 +110,7 @@
         }
         
         .time-value {
-            font-size: 48px;
+            font-size: 36px;
             font-weight: 800;
             color: white;
             line-height: 1;
@@ -201,46 +201,54 @@
         
         <div class="info-box">
             <div class="info-text">Estimated start date</div>
-            <div class="date-text">February 18, 2026</div>
-            <div class="time-detail">at Maghreb (approx. 5:30 PM)</div>
+            <div class="date-text">February 17-18, 2026</div> 
+            <div class="time-detail">at Maghreb (~5:30 PM) - Subject to moon sighting</div>
         </div>
     </div>
 
     <script>
-        var ramadanDate = new Date('2026-02-18T17:30:00');
+        var ramadanDate = new Date('2026-02-17T17:30:00');  
         
         function updateCountdown() {
             var now = new Date();
             var difference = ramadanDate - now;
+    
+        if (difference <= 0) {
+            document.getElementById('months').textContent = '0';
+            document.getElementById('weeks').textContent = '0';
+            document.getElementById('days').textContent = '0';
+            document.getElementById('hours').textContent = '0';
+            document.getElementById('minutes').textContent = '0';
+            document.getElementById('seconds').textContent = '0';
+        return;
+        }
             
-            if (difference <= 0) {
-                document.getElementById('months').textContent = '0';
-                document.getElementById('weeks').textContent = '0';
-                document.getElementById('days').textContent = '0';
-                document.getElementById('hours').textContent = '0';
-                return;
-            }
-            
-            var totalHours = Math.floor(difference / (1000 * 60 * 60));
+            var totalSeconds = Math.floor(difference / 1000);
+            var totalMinutes = Math.floor(totalSeconds / 60);
+            var totalHours = Math.floor(totalMinutes / 60);
             var totalDays = Math.floor(totalHours / 24);
-            
+    
             var months = Math.floor(totalDays / 30);
             var remainingAfterMonths = totalDays % 30;
-            
+    
             var weeks = Math.floor(remainingAfterMonths / 7);
             var days = remainingAfterMonths % 7;
-            
+    
             var hours = totalHours % 24;
+            var minutes = totalMinutes % 60;  // ← Nouveau
+            var seconds = totalSeconds % 60;  // ← Nouveau
             
             document.getElementById('months').textContent = months;
             document.getElementById('weeks').textContent = weeks;
             document.getElementById('days').textContent = days;
             document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
         }
         
         updateCountdown();
         
-        setInterval(updateCountdown, 1000 * 60 * 60);
+        setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
